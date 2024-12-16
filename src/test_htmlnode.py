@@ -36,7 +36,7 @@ class TestHTMLNode(unittest.TestCase):
         test_props = {"key1": "value1", "key2": "value2", "key3": "value3"}
         node = HTMLNode(None, None, None, test_props)
         result = node.props_to_html()
-        expected_result = " key1=value1 key2=value2 key3=value3"
+        expected_result = " key1=\"value1\" key2=\"value2\" key3=\"value3\""
         self.assertEqual(result, expected_result)
 
     def test_repr(self):
