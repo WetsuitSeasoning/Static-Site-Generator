@@ -4,9 +4,9 @@ from leafnode import *
 
 class TestParentNode(unittest.TestCase):
     def test_constructor(self):
-        node = ParentNode("p", [LeafNode("b", "this is some text", None)],None)
+        node = ParentNode("p", [LeafNode("b", "this is some text", None)], {"key1": "value1"})
         result = node.__repr__()
-        expected_result = "tag= p, value= None, children= [tag= b, value= this is some text, children= None, props= None], props= None"
+        expected_result = "tag= p, value= None, children= [tag= b, value= this is some text, children= None, props= None], props= {\'key1\': \'value1\'}"
         self.assertEqual(result, expected_result)
 
     def test_constructor_empty_children(self):
@@ -44,6 +44,10 @@ class TestParentNode(unittest.TestCase):
         result = node.to_html()
         expected_result = "<h1>this is some text<p><b>this is some text</b><a href=\"www.google.com\">Click me!</a></p></h1>"
         self.assertEqual(result, expected_result)
+
+    def test_invalid_child(self):
+        with self.assertRaises(ValueError):
+            ParentNode("a", ["1","2"], None)
 
 if __name__ == "__main__":
     unittest.main()

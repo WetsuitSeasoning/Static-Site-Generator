@@ -4,6 +4,9 @@ class ParentNode(HTMLNode):
     def __init__(self, tag, children: list[HTMLNode], props: dict=None):
         if children == None or children == []:
             raise ValueError("children cannot be empty or None")
+        for child in children:
+            if not isinstance(child, HTMLNode):
+                raise ValueError(f"child {child} is not an instance of HTMLNode")
         if tag == None:
             raise ValueError("tag cannot be empty")
         
@@ -11,8 +14,6 @@ class ParentNode(HTMLNode):
 
     def to_html(self):
         output_string = ""
-        #if len(self.children) == 0:
-            #raise ValueError("Parent node must have children")
         for child in self.children:
             if not isinstance(child, HTMLNode):
                 raise ValueError(f"child {child} is not an instance of HTMLNode")
