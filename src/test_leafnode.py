@@ -4,7 +4,7 @@ from leafnode import *
 class TestLeafNode(unittest.TestCase):
     def test_constructor(self):
         node = LeafNode("this is a tag", "this is a value", {"key1": "value1"})
-        result = f"tag= {node.tag}, value= {node.value}, children= {node.children}, props= {node.props}"
+        result = node.__repr__()
         expected_result = "tag= this is a tag, value= this is a value, children= None, props= {'key1': 'value1'}"
         self.assertEqual(result, expected_result)
     
@@ -16,7 +16,8 @@ class TestLeafNode(unittest.TestCase):
 
     def test_to_html_empty_value(self):
         node = LeafNode("p", None, None)
-        self.assertRaises(ValueError, node.to_html)
+        with self.assertRaises(ValueError):
+            node.to_html()
 
     def test_to_html_empty_props(self):
         node = LeafNode("p", "this is a value", None)

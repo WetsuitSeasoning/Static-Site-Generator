@@ -18,5 +18,5 @@ class HTMLNode:
         return props_string
 
     def __repr__(self):
-        return f"tag= {self.tag}\nvalue= {self.value}\nchildren= {self.children}\nprops= {self.props}"
+        return f"tag= {self.tag}, value= {self.value}, children= {self.children}, props= {self.props}"
     
