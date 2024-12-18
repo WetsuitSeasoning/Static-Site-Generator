@@ -1,5 +1,5 @@
 import unittest
-from leafnode import *
+from leafnode import LeafNode
 
 class TestLeafNode(unittest.TestCase):
     def test_constructor(self):
@@ -14,10 +14,10 @@ class TestLeafNode(unittest.TestCase):
         expected_result = "this is a value"
         self.assertEqual(result, expected_result)
 
-    def test_to_html_empty_value(self):
-        node = LeafNode("p", None, None)
+    def test_constructor_empty_value(self):
         with self.assertRaises(ValueError):
-            node.to_html()
+            # This test case expects a ValueError when the value parameter is None
+            LeafNode("p", None, None)
 
     def test_to_html_empty_props(self):
         node = LeafNode("p", "this is a value", None)

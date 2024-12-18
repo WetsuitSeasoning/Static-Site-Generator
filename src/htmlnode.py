@@ -1,5 +1,3 @@
-from textnode import *
-
 class HTMLNode:
     def __init__(self, tag: str=None, value: str=None, children: list=None, props: dict=None):
         self.tag = tag
@@ -8,11 +6,18 @@ class HTMLNode:
         self.props = props
 
     def to_html(self):
+        """
+        Convert the node to an HTML string.
+        
+        This method should be implemented by subclasses.
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
         raise NotImplementedError()
     
     def props_to_html(self):
         props_string = ""
-        if self.props == None:
+        if self.props is None:
             return props_string
         for key in self.props:
             value = self.props[key]
