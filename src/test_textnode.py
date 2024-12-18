@@ -8,13 +8,13 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node, node2)
 
     def test_not_eq_different_textType(self):
-        node = TextNode("This is a text node", TextType.NORMAL)
+        node = TextNode("This is a text node", TextType.TEXT)
         node2 = TextNode("This is a text node", TextType.ITALIC)
         self.assertNotEqual(node, node2)
 
     def test_empty_string(self):
-        node = TextNode("", TextType.NORMAL)
-        node2 = TextNode("This is a text node", TextType.NORMAL)
+        node = TextNode("", TextType.TEXT)
+        node2 = TextNode("This is a text node", TextType.TEXT)
         self.assertNotEqual(node, node2)
 
     def test_url_none(self):
@@ -28,8 +28,8 @@ class TestTextNode(unittest.TestCase):
         self.assertNotEqual(node, node2)
 
     def test_eq_method(self):
-        node = TextNode("This is a text node", TextType.NORMAL, url="www.frontend.dev")
-        node2 = TextNode("This is a text node", TextType.NORMAL, url="www.frontend.dev")
+        node = TextNode("This is a text node", TextType.TEXT, url="www.frontend.dev")
+        node2 = TextNode("This is a text node", TextType.TEXT, url="www.frontend.dev")
         result = node.__eq__(node2)
         self.assertEqual(result, True)
 

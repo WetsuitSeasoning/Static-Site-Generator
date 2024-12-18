@@ -1,3 +1,5 @@
+from textnode import *
+
 class HTMLNode:
     def __init__(self, tag: str=None, value: str=None, children: list=None, props: dict=None):
         self.tag = tag
@@ -19,4 +21,3 @@ class HTMLNode:
 
     def __repr__(self):
         return f"tag= {self.tag}, value= {self.value}, children= {self.children}, props= {self.props}"
-    

@@ -49,5 +49,6 @@ class TestHTMLNode(unittest.TestCase):
         expected_result = "tag= this is a tag, value= this is a value, children= ['child1', 'child2', 'child 3'], props= {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}"
         self.assertEqual(result, expected_result)
 
+
 if __name__ == "__main__":
     unittest.main()
