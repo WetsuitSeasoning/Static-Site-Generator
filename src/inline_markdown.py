@@ -52,26 +52,18 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
             node_text = node.text
             
             if len(image_text) > 0: # At least 1 image was found in the node
-                for i, alt_text, image_url in enumerate(image_text):
-                    split_text = node_text.split(f"![{alt_text}]({image_url})", maxsplit=1) # Only split once, if the image is found multiple times it will be handled in the next iteration
+                for alt_text, image_url in image_text:
+                    split_text = node_text.split(f"![{alt_text}]({image_url})", maxsplit=1)
                     
-                    if len(split_text) == 1: # No split was performed, the node text was only an image
-                        new_nodes.append(TextNode(alt_text, TextType.IMAGE, image_url)) # Add the image
-                        continue
-
-                    elif len(split_text) > 1: # Image found, with text before or after
-                        if not split_text[0]: # There was no text before the image
-                            new_nodes.append(TextNode(alt_text, TextType.IMAGE, image_url))
-                        else: # There was text before the image
-                            new_nodes.append(TextNode(split_text[0], TextType.TEXT, None))
-                            new_nodes.append(TextNode(alt_text, TextType.IMAGE, image_url))
-                        
-                        node_text = split_text[1] # Pass the remaining text to the next iteration
-                        continue
-
-                    if i == len(image_text) - 1 and len(split_text) > 1: # We've reached the end of the found images
-                        new_nodes.append(TextNode(split_text[1], TextType.TEXT, None)) # Add the remaining text
-
+                    if split_text[0] != "": # There is text before the image
+                        new_nodes.append(TextNode(split_text[0], TextType.TEXT))
+                    
+                    new_nodes.append(TextNode(alt_text, TextType.IMAGE, image_url))
+                    
+                    node_text = split_text[1] if len(split_text) > 1 else ""
+                
+                if node_text != "": # There is text after the last image
+                    new_nodes.append(TextNode(node_text, TextType.TEXT))
             else: # No image was found in the node
                 new_nodes.append(node)
         
@@ -95,36 +87,7 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
         if not isinstance(node.text_type, TextType):
             raise ValueError(f"node text type {node.text_type} is not an instance of TextType")
         
-        if node.text_type == TextType.TEXT:
-            link_text = extract_markdown_links(node.text)
-            node_text = node.text
-
-            if len(link_text) > 0: # At least 1 link was found in the node
-                for i, link_text, link_url in enumerate(link_text):
-                    split_text = node_text.split(f"[{link_text}]({link_url})", maxsplit=1) # Only split once, if the link is found multiple times it will be handled in the next iteration
-
-                    if len(split_text) == 1: # No split was performed, the node text was only a link
-                        new_nodes.append(TextNode(link_text, TextType.LINK, link_url))
-                        continue
-
-                    elif len(split_text) > 1: # Link found, with text before or after
-                        if not split_text[0]: # There was no text before the link
-                            new_nodes.append(TextNode(link_text, TextType.LINK, link_url))
-                        else: # There was text before the link
-                            new_nodes.append(TextNode(split_text[0], TextType.TEXT, None))
-                            new_nodes.append(TextNode(link_text, TextType.LINK, link_url))
-
-                        node_text = split_text[1] # Pass the remaining text to the next iteration
-                        continue
-
-                    if i == len(link_text) - 1 and len(split_text) > 1: # We've reached the end of the found links
-                        new_nodes.append(TextNode(split_text[1], TextType.TEXT, None)) # Add the remaining text
-
-            else: # No link was found in the node
-                new_nodes.append(node)
-
-        else: # The node is not text
-            new_nodes.append(node)
+        pass
     
     return new_nodes
 
