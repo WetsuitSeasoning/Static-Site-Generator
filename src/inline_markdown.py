@@ -64,6 +64,7 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
                 
                 if node_text != "": # There is text after the last image
                     new_nodes.append(TextNode(node_text, TextType.TEXT))
+
             else: # No image was found in the node
                 new_nodes.append(node)
         
@@ -87,7 +88,29 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
         if not isinstance(node.text_type, TextType):
             raise ValueError(f"node text type {node.text_type} is not an instance of TextType")
         
-        pass
+        if node.text_type == TextType.TEXT:
+            link_text = extract_markdown_links(node.text)
+            node_text = node.text
+            
+            if len(link_text) > 0: # At least 1 link was found in the node
+                for link_words, link_url in link_text:
+                    split_text = node_text.split(f"[{link_words}]({link_url})", maxsplit=1)
+                    
+                    if split_text[0] != "": # There is text before the link
+                        new_nodes.append(TextNode(split_text[0], TextType.TEXT))
+
+                    new_nodes.append(TextNode(link_words, TextType.LINK, link_url))
+
+                    node_text = split_text[1] if len(split_text) > 1 else ""
+
+                if node_text != "": # There is text after the last link
+                    new_nodes.append(TextNode(node_text, TextType.TEXT))
+
+            else: # No link was found in the node
+                new_nodes.append(node)
+
+        else: # The node is not text
+            new_nodes.append(node)
     
     return new_nodes
 
