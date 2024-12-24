@@ -309,6 +309,17 @@ class TestSplitNodes(unittest.TestCase):
             TextNode("This is some text with bad markdown: ![an image](https://example.com/image.png", TextType.TEXT),
         ]
         self.assertEqual(result, expected)
+
+    def test_split_nodes_link_single(self):
+        nodes = [TextNode("This is some text with [a link](www.example.com) in it.", TextType.TEXT)]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text with ", TextType.TEXT),
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode(" in it.", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
+        
        
 
 
