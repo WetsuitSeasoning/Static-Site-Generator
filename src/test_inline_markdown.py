@@ -320,6 +320,17 @@ class TestSplitNodes(unittest.TestCase):
         ]
         self.assertEqual(result, expected)
         
+    def test_split_nodes_link_multiple(self):
+        nodes = [TextNode("This is some text with [a link](www.example.com) and [another link](www.example.org) in it.", TextType.TEXT)]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text with ", TextType.TEXT),
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("another link", TextType.LINK, "www.example.org"),
+            TextNode(" in it.", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
        
 
 
