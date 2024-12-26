@@ -331,7 +331,106 @@ class TestSplitNodes(unittest.TestCase):
             TextNode(" in it.", TextType.TEXT)
         ]
         self.assertEqual(result, expected)
-       
+
+    def test_split_nodes_link_no_links(self):
+        nodes = [TextNode("This is some plain text.", TextType.TEXT)]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some plain text.", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_no_text(self):
+        nodes = [TextNode("This is some text without a link", TextType.TEXT)]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text without a link", TextType.TEXT),
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_text_before(self):
+        nodes = [
+            TextNode("This is some text before [a link](www.example.com)", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text before ", TextType.TEXT),
+            TextNode("a link", TextType.LINK, "www.example.com")
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_text_after(self):
+        nodes = [
+            TextNode("[a link](www.example.com) and some text after", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode(" and some text after", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_text_before_and_after(self):
+        nodes = [
+            TextNode("This is some text before [a link](www.example.com) and some text after", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text before ", TextType.TEXT),
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode(" and some text after", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_bad_syntax(self):
+        nodes = [
+            TextNode("This is some text with a bad link: [a link](www.example.com", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some text with a bad link: [a link](www.example.com", TextType.TEXT),
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_invalid_text_type(self):
+        nodes = [
+            TextNode("This is some text", "invalid_type"),
+        ]
+        with self.assertRaises(ValueError):
+            split_nodes_link(nodes)
+
+    def test_split_nodes_link_empty_list(self):
+        nodes = []
+        result = split_nodes_link(nodes)
+        expected = []
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_other_text_type(self):
+        nodes = [
+            TextNode("This is some BOLD text", TextType.BOLD),
+            TextNode("This is some text with [a link](www.example.com) and some text after", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("This is some BOLD text", TextType.BOLD),
+            TextNode("This is some text with ", TextType.TEXT),
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode(" and some text after", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected)
+
+    def test_split_nodes_link_multiple_links_no_text_between(self):
+        nodes = [
+            TextNode("[a link](www.example.com)[another link](www.example.org)", TextType.TEXT),
+        ]
+        result = split_nodes_link(nodes)
+        expected = [
+            TextNode("a link", TextType.LINK, "www.example.com"),
+            TextNode("another link", TextType.LINK, "www.example.org")
+        ]
+        self.assertEqual(result, expected)
+
+         
 
 
 if __name__ == "__main__":
