@@ -152,6 +152,9 @@ def text_to_textnodes(text: str) -> list[TextNode]:
     Returns:
         list[TextNode]: A list of TextNode objects representing the text.
     """
+    if text == "": # Empty text
+        return [] # Return an empty list
+
     nodes = [TextNode(text, TextType.TEXT)] # Initialize with everything as a single node of type TEXT
 
     types = [
