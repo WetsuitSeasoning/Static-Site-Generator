@@ -154,6 +154,14 @@ def text_to_textnodes(text: str) -> list[TextNode]:
     """
     if text == "": # Empty text
         return [] # Return an empty list
+    
+    # Check if this is a list-like paragraph
+    lines = text.split('\n')
+    has_list_items = any(line.lstrip().startswith(('*', '1.')) for line in lines)
+    
+    if has_list_items:
+        # If it's list-like, just treat it as plain text
+        return [TextNode(text, TextType.TEXT)]
 
     nodes = [TextNode(text, TextType.TEXT)] # Initialize with everything as a single node of type TEXT
 
