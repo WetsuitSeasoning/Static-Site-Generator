@@ -212,9 +212,14 @@ class TestBlockMarkdown(unittest.TestCase):
         expected = "<div><h1>Heading</h1><p>Paragraph text</p><blockquote>A quote</blockquote></div>"
         self.assertEqual(markdown_to_html_node(markdown).to_html(), expected)
 
-    def test_markdown_to_html_node_nested_lists(self):
+    def test_markdown_to_html_node_nested_unordered_lists(self):
         markdown = "* First item\n  * First nested item\n  * Second nested item\n* Second item"
         expected = "<div><ul><li>First item<ul><li>First nested item</li><li>Second nested item</li></ul></li><li>Second item</li></ul></div>"
+        self.assertEqual(markdown_to_html_node(markdown).to_html(), expected)
+
+    def test_markdown_to_html_node_nested_ordered_lists(self):
+        markdown = "1. First item\n  1. First nested item\n  2. Second nested item\n2. Second item"
+        expected = "<div><ol><li>First item<ol><li>First nested item</li><li>Second nested item</li></ol></li><li>Second item</li></ol></div>"
         self.assertEqual(markdown_to_html_node(markdown).to_html(), expected)
 
 if __name__ == "__main__":
