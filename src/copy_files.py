@@ -27,4 +27,6 @@ def copy_files(src_dir, dest_dir):
         except Exception as e:
             print(f"Error: {e}")
             return
+
+    # Copy files from source directory to destination directory
         
