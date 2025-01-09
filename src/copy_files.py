@@ -29,4 +29,12 @@ def copy_files(src_dir, dest_dir):
             return
 
     # Copy files from source directory to destination directory
+    try:
+        for file in os.listdir(src_dir):
+            file_path = os.path.join(src_dir, file)
+            if os.path.isfile(file_path):
+                shutil.copy(file_path, dest_dir)
+    except Exception as e:
+        print(f"Error: {e}")
+        return
         
