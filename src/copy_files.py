@@ -30,10 +30,18 @@ def copy_files(src_dir, dest_dir):
 
     # Copy files from source directory to destination directory
     try:
-        for file in os.listdir(src_dir):
-            file_path = os.path.join(src_dir, file)
-            if os.path.isfile(file_path):
-                shutil.copy(file_path, dest_dir)
+        for root, dirs, files in os.walk(src_dir):
+            # Create corresponding directories in destination
+            for dir in dirs:
+                dest_path = os.path.join(dest_dir, os.path.relpath(os.path.join(root, dir), src_dir))
+                if not os.path.exists(dest_path):
+                    os.makedirs(dest_path)
+            # Copy files
+            for file in files:
+                src_file_path = os.path.join(root, file)
+                dest_file_path = os.path.join(dest_dir, os.path.relpath(src_file_path, src_dir))
+                #print(f"Copying {src_file_path} to {dest_file_path}")
+                shutil.copy2(src_file_path, dest_file_path)
     except Exception as e:
         print(f"Error: {e}")
         return

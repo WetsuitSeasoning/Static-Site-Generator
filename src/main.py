@@ -1,10 +1,16 @@
-from textnode import *
+import os
+from copy_files import copy_files
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+static_path = os.path.join(os.path.dirname(dir_path), "static")
+public_path = os.path.join(os.path.dirname(dir_path), "public")
 
 def main():
-
-    node_1 = TextNode("this is some text", TextType.BOLD, "www.google.com")
-
-    print(node_1.__repr__())
+    #print(f"Working Directory: {dir_path}")
+    #print(f"Static Path: {static_path}")
+    #print(f"Public Path: {public_path}")
+    copy_files(static_path, public_path)
 
 
 
