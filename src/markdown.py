@@ -13,4 +13,4 @@ def extract_title(markdown: str) -> str:
     if not markdown.startswith("# "):
         raise ValueError("No title found in markdown string")
 
-    
+    return markdown[2:].split("\n", 1)[0].strip()
