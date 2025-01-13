@@ -2,7 +2,7 @@
 
 def extract_title(markdown: str) -> str:
     """
-    Pulls the h1 header from a markdown string.
+    Pulls the h1 header from a markdown string, and strips the leading '#' and any leading/trailing whitespace.
 
     Args:
         markdown: A markdown string.
