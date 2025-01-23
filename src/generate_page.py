@@ -2,7 +2,7 @@
 
 def generate_page(from_path, template_path, dest_path):
     """
-    Generates a HTML page from a markdown file and a template.
+    Generates a HTML page from a markdown file and a template. The generated file is saved to the destination path.
 
     Args:
         from_path (str): The path to the markdown file.
