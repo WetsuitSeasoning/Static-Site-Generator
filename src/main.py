@@ -1,5 +1,6 @@
 import os
 from copy_files import copy_files
+from markdown import extract_title
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
